@@ -1,0 +1,11 @@
+{
+  "name": "fighting-game",
+  "version": "1.0.0",
+  "description": "fighting game widget",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Edson Brito",
+  "license": "ISC"
+}
