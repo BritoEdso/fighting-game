@@ -50,6 +50,7 @@ export class Fighter extends Sprite {
     this.framesElapsed = 0;
     this.framesHold = 10;
     this.sprites = sprites;
+    this.dead = false
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();
@@ -59,7 +60,7 @@ export class Fighter extends Sprite {
 
   update() {
     this.draw();
-    this.animateFrame();
+    if(!this.dead) this.animateFrame();
 
     // attack boxes
     this.attackbox.position.x = this.position.x + this.attackbox.offset.x;
@@ -83,11 +84,21 @@ export class Fighter extends Sprite {
   }
 
   takeHit() {
-    this.switchSprtie("takeHit");
     this.health -= 20;
+
+    if(this.health <= 0) {
+      this.switchSprtie('death')
+    } else {
+      this.switchSprtie("takeHit");
+    }
   }
 
   switchSprtie(sprite) {
+    if(this.image === this.sprites.death.image) {
+      if(this.framesCurrent === this.sprites.death.framesMax -1)
+      this.dead = true
+      return
+    }
     //override when attacking
     if (
       this.image === this.sprites.attack.image &&
@@ -159,8 +170,19 @@ export class Fighter extends Sprite {
         if (this.image !== this.sprites.takeHit.image) {
           this.image = this.sprites.takeHit.image;
           this.framesMax = this.sprites.takeHit.framesMax;
+          this.framesHold = this.sprites.takeHit.framesHold || this.framesHold;
           this.offset = this.sprites.takeHit.offset || this.offset;
           this.scale = this.sprites.takeHit.scale || this.scale;
+          this.framesCurrent = 0;
+        }
+        break;
+      case "death":
+        if (this.image !== this.sprites.death.image) {
+          this.image = this.sprites.death.image;
+          this.framesMax = this.sprites.death.framesMax;
+          this.framesHold = this.sprites.death.framesHold || this.framesHold;
+          this.offset = this.sprites.death.offset || this.offset;
+          this.scale = this.sprites.death.scale || this.scale;
           this.framesCurrent = 0;
         }
         break;
