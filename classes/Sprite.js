@@ -29,8 +29,7 @@ export class Sprite {
     );
   }
 
-  update() {
-    this.draw();
+  animateFrame(){
     this.framesElapsed++;
 
     if (this.framesElapsed % this.framesHold === 0) {
@@ -40,5 +39,10 @@ export class Sprite {
         this.framesCurrent = 0;
       }
     }
+  }
+
+  update() {
+    this.draw();
+    this.animateFrame()
   }
 }

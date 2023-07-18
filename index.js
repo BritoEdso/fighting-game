@@ -1,6 +1,10 @@
 import { Fighter } from "./classes/Fighter.js";
 import { Sprite } from "./classes/Sprite.js";
-import { rectangularCollision, decreaseTimer, determineWinner } from "./src/utils.js";
+import {
+  rectangularCollision,
+  decreaseTimer,
+  determineWinner,
+} from "./src/utils.js";
 
 export const canvas = document.querySelector("canvas");
 export const c = canvas.getContext("2d");
@@ -12,25 +16,24 @@ c.fillRect(0, 0, canvas.width, canvas.height);
 export const gravity = 0.7;
 
 const background = new Sprite({
-    position: {
-        x: 0,
-        y: 0
-    },
-    imageSrc: './img/Background.png'
-})
+  position: {
+    x: 0,
+    y: 0,
+  },
+  imageSrc: "./img/Background.png",
+});
 
 const shop = new Sprite({
-    position: {
-        x: 600,
-        y: 152
-    },
-    imageSrc: './img/shop.png',
-    scale: 2.75,
-    framesMax: 6
-})
+  position: {
+    x: 600,
+    y: 152,
+  },
+  imageSrc: "./img/shop.png",
+  scale: 2.75,
+  framesMax: 6,
+});
 
-
-const player = new Fighter({
+export const player = new Fighter({
   position: { x: 0, y: 0 },
   velocity: {
     x: 0,
@@ -40,16 +43,34 @@ const player = new Fighter({
     x: 0,
     y: 0,
   },
-  imageSrc: './img/NightBorne/NightBorne_idle.png',
+  imageSrc: "./img/NightBorne/NightBorne_idle.png",
   framesMax: 9,
   scale: 2.75,
-  offset:{
+  offset: {
     x: 40,
-    y: 30
-  }
+    y: 30,
+  },
+  sprites: {
+    idle: {
+      imageSrc: "./img/NightBorne/NightBorne_idle.png",
+      framesMax: 9,
+    },
+    run: {
+      imageSrc: "./img/NightBorne/NightBorne_run.png",
+      framesMax: 5,
+    },
+    jump: {
+      imageSrc: "./img/NightBorne/NightBorne_idle.png",
+      framesMax: 9,
+    },
+    fall: {
+      imageSrc: "./img/NightBorne/NightBorne_idle.png",
+      framesMax: 9,
+    },
+  },
 });
 
-const enemy = new Fighter({
+export const enemy = new Fighter({
   position: { x: 400, y: 100 },
   velocity: {
     x: 0,
@@ -60,13 +81,13 @@ const enemy = new Fighter({
     x: -50,
     y: 0,
   },
-  imageSrc: './img/MartialHero/Sprites/idle.png',
+  imageSrc: "./img/MartialHero/Sprites/idle.png",
   framesMax: 8,
   scale: 2,
-  offset:{
+  offset: {
     x: 0,
-    y: -95
-  }
+    y: -95,
+  },
 });
 
 enemy.draw();
@@ -93,8 +114,8 @@ const animate = () => {
   window.requestAnimationFrame(animate);
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
-  background.update()
-  shop.update()
+  background.update();
+  shop.update();
   player.update();
   enemy.update();
 
@@ -102,10 +123,22 @@ const animate = () => {
   enemy.velocity.x = 0;
 
   // player movement
+
   if (keys.a.pressed && lastKey === "a") {
     player.velocity.x = -5;
+    player.switchSprtie("run");
   } else if (keys.d.pressed && lastKey === "d") {
     player.velocity.x = 5;
+    player.switchSprtie("run");
+  } else {
+    player.switchSprtie("idle");
+  }
+
+  // jumping
+  if (player.velocity.y < 0) {
+    player.switchSprtie("jump");
+  } else if (player.velocity.y > 0) {
+    player.switchSprtie("fall")
   }
 
   // enemy movement

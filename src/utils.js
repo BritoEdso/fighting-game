@@ -1,3 +1,5 @@
+import { player, enemy } from "../index.js";
+
 export const rectangularCollision = ({ rectangle1, rectangle2 }) => {
   return (
     rectangle1.attackbox.position.x + rectangle1.attackbox.width >=
