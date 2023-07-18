@@ -1,11 +1,34 @@
-const canvas = document.querySelector("canvas");
-const c = canvas.getContext("2d");
+import { Fighter } from "./classes/Fighter.js";
+import { Sprite } from "./classes/Sprite.js";
+import { rectangularCollision, decreaseTimer, determineWinner } from "./src/utils.js";
+
+export const canvas = document.querySelector("canvas");
+export const c = canvas.getContext("2d");
 
 canvas.width = 1024;
 canvas.height = 576;
 
 c.fillRect(0, 0, canvas.width, canvas.height);
-const gravity = 0.7;
+export const gravity = 0.7;
+
+const background = new Sprite({
+    position: {
+        x: 0,
+        y: 0
+    },
+    imageSrc: './img/Background.png'
+})
+
+const shop = new Sprite({
+    position: {
+        x: 600,
+        y: 152
+    },
+    imageSrc: './img/shop.png',
+    scale: 2.75,
+    framesMax: 6
+})
+
 
 const player = new Fighter({
   position: { x: 0, y: 0 },
@@ -17,6 +40,13 @@ const player = new Fighter({
     x: 0,
     y: 0,
   },
+  imageSrc: './img/NightBorne/NightBorne_idle.png',
+  framesMax: 9,
+  scale: 2.75,
+  offset:{
+    x: 40,
+    y: 30
+  }
 });
 
 const enemy = new Fighter({
@@ -30,6 +60,13 @@ const enemy = new Fighter({
     x: -50,
     y: 0,
   },
+  imageSrc: './img/MartialHero/Sprites/idle.png',
+  framesMax: 8,
+  scale: 2,
+  offset:{
+    x: 0,
+    y: -95
+  }
 });
 
 enemy.draw();
@@ -50,51 +87,14 @@ const keys = {
 };
 let lastKey;
 
-const rectangularCollision = ({ rectangle1, rectangle2 }) => {
-  return (
-    rectangle1.attackbox.position.x + rectangle1.attackbox.width >=
-      rectangle2.position.x &&
-    rectangle1.attackbox.position.x <=
-      rectangle2.position.x + rectangle2.width &&
-    rectangle1.attackbox.position.y + rectangle1.attackbox.height >=
-      rectangle2.position.y &&
-    rectangle1.attackbox.position.y <= rectangle2.position.y + rectangle2.height
-  );
-};
-
-const determineWinner = ({ player, enemy, timerId }) => {
-    clearTimeout(timerId)
-  document.querySelector("#displayText").style.display = "flex";
-
-  if (player.health === enemy.health) {
-    document.querySelector("#displayText").innerHTML = "Tie";
-  } else if (player.health > enemy.health) {
-    document.querySelector("#displayText").innerHTML = "Player 1 Wins!";
-  } else if (player.health < enemy.health) {
-    document.querySelector("#displayText").innerHTML = "Player 2 Wins!";
-  }
-};
-
-let timer = 60;
-let timerId
-const decreaseTimer = () => {
-  if (timer > 0) {
-    timerId = setTimeout(decreaseTimer, 1000);
-    timer--;
-    document.querySelector("#timer").innerHTML = timer;
-  }
-
-  if (timer === 0) {
-    determineWinner({ player, enemy, timerId });
-  }
-};
-
 decreaseTimer();
 
 const animate = () => {
   window.requestAnimationFrame(animate);
   c.fillStyle = "black";
   c.fillRect(0, 0, canvas.width, canvas.height);
+  background.update()
+  shop.update()
   player.update();
   enemy.update();
 
