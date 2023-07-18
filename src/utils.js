@@ -1,6 +1,7 @@
 import { player, enemy } from "../index.js";
 
-export const rectangularCollision = ({ rectangle1, rectangle2 }) => {
+export const rectangularCollision = ({ rectangle1, rectangle2, offset }) => {
+
   return (
     rectangle1.attackbox.position.x + rectangle1.attackbox.width >=
       rectangle2.position.x &&
@@ -26,7 +27,7 @@ export const determineWinner = ({ player, enemy, timerId }) => {
 };
 
 let timer = 60;
-let timerId;
+export let timerId;
 export const decreaseTimer = () => {
   if (timer > 0) {
     timerId = setTimeout(decreaseTimer, 1000);

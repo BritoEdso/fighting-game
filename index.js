@@ -4,6 +4,7 @@ import {
   rectangularCollision,
   decreaseTimer,
   determineWinner,
+  timerId
 } from "./src/utils.js";
 
 export const canvas = document.querySelector("canvas");
@@ -13,7 +14,7 @@ canvas.width = 1024;
 canvas.height = 576;
 
 c.fillRect(0, 0, canvas.width, canvas.height);
-export const gravity = 0.7;
+export const gravity = 0.8;
 
 const background = new Sprite({
   position: {
@@ -34,12 +35,8 @@ const shop = new Sprite({
 });
 
 export const player = new Fighter({
-  position: { x: 0, y: 0 },
+  position: { x: 100, y: 0 },
   velocity: {
-    x: 0,
-    y: 0,
-  },
-  offset: {
     x: 0,
     y: 0,
   },
@@ -47,47 +44,137 @@ export const player = new Fighter({
   framesMax: 9,
   scale: 2.75,
   offset: {
-    x: 40,
+    x: 10,
     y: 30,
   },
   sprites: {
     idle: {
       imageSrc: "./img/NightBorne/NightBorne_idle.png",
       framesMax: 9,
+      scale: 2.75,
+      offset: {
+        x: -90,
+        y: 30,
+      },
     },
     run: {
       imageSrc: "./img/NightBorne/NightBorne_run.png",
+      scale: 2.75,
       framesMax: 5,
+      offset: {
+        x: -90,
+        y: 30,
+      },
     },
     jump: {
       imageSrc: "./img/NightBorne/NightBorne_idle.png",
       framesMax: 9,
+      offset: {
+        x: -90,
+        y: 30,
+      },
     },
     fall: {
       imageSrc: "./img/NightBorne/NightBorne_idle.png",
       framesMax: 9,
+      offset: {
+        x: -90,
+        y: 30,
+      },
     },
+    attack: {
+      imageSrc: "./img/NightBorne/NightBorne_attack.png",
+      framesMax: 12,
+      offset: {
+        x: 0,
+        y: -15,
+      }
+    }, 
+    takeHit: {
+      imageSrc: "./img/NightBorne/NightBorne_takeHit.png",
+      scale: 2,
+      framesMax: 5,
+      offset: {
+        x: -100,
+        y: 42,
+      }
+    }, 
   },
+  attackbox: {
+    offset: {
+      x: 140,
+      y: 50
+    },
+    width: 120,
+    height: 100
+  },
+  hitBox: {
+    position: {
+      x: 1000,
+      y: 0
+    },
+    width: 10020,
+    height: 100
+  }
 });
 
 export const enemy = new Fighter({
-  position: { x: 400, y: 100 },
+  position: { x: 800, y: 100 },
   velocity: {
     x: 0,
     y: 0,
   },
   color: "blue",
   offset: {
-    x: -50,
+    x: 50,
     y: 0,
   },
-  imageSrc: "./img/MartialHero/Sprites/idle.png",
-  framesMax: 8,
-  scale: 2,
+  imageSrc: "./img/SonSon/SonSon_idle.png",
+  framesMax: 6,
+  scale: 1,
   offset: {
-    x: 0,
-    y: -95,
+    x: -10,
+    y: 90,
   },
+  sprites: {
+    idle: {
+      imageSrc: "./img/SonSon/SonSon_idle.png",
+      framesMax: 6,
+      framesHold: 20,
+    },
+    run: {
+      imageSrc: "./img/SonSon/SonSon_runForward.png",
+      framesMax: 1,
+    },
+    runBackwards: {
+      imageSrc: "./img/SonSon/SonSon_runBackwards.png",
+      framesMax: 1,
+    },
+    jump: {
+      imageSrc: "./img/SonSon/SonSon_jump.png",
+      framesMax: 1,
+    },
+    fall: {
+      imageSrc: "./img/SonSon/SonSon_fall.png",
+      framesMax: 1,
+    },
+    attack: {
+      imageSrc: "./img/SonSon/SonSon_attack.png",
+      framesMax: 4,
+    },
+    takeHit: {
+      imageSrc: "./img/SonSon/SonSon_TakeHit.png",
+      framesMax: 1,
+    }
+  },
+  attackbox: {
+    offset: {
+      x: 40,
+      y: 100
+    },
+    width: 25,
+    height: 40
+  }
 });
 
 enemy.draw();
@@ -123,7 +210,6 @@ const animate = () => {
   enemy.velocity.x = 0;
 
   // player movement
-
   if (keys.a.pressed && lastKey === "a") {
     player.velocity.x = -5;
     player.switchSprtie("run");
@@ -144,28 +230,52 @@ const animate = () => {
   // enemy movement
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5;
+    enemy.switchSprtie("run");
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
     enemy.velocity.x = 5;
+    enemy.switchSprtie("runBackwards");
+  } else {
+    enemy.switchSprtie("idle");
   }
 
-  //detect for collision
+    // jumping
+    if (enemy.velocity.y < 0) {
+      enemy.switchSprtie("jump");
+    } else if (enemy.velocity.y > 0) {
+      enemy.switchSprtie("fall")
+    }
+
+
+  //detect for collision & enemy gets hit
   if (
-    rectangularCollision({ rectangle1: player, rectangle2: enemy }) &&
-    player.isAttacking
+    rectangularCollision({ rectangle1: player, rectangle2: enemy, offset:{x: 0, y: 111000} }) &&
+    player.isAttacking && player.framesCurrent === 7
   ) {
+    enemy.takeHit()
     player.isAttacking = false;
-    enemy.health -= 20;
     document.querySelector("#enemyHealth").style.width = enemy.health + "%";
   }
 
+  // if player misses
+  if(player.isAttacking && player.framesCurrent === 7){
+    player.isAttacking = false
+  }
+
+  // if player gets hit
   if (
-    rectangularCollision({ rectangle1: enemy, rectangle2: player }) &&
+    rectangularCollision({ rectangle1: enemy, rectangle2: player, offset:{x: 100, y: 0}  }) &&
     enemy.isAttacking
   ) {
+    player.takeHit()
     enemy.isAttacking = false;
-    player.health -= 20;
     document.querySelector("#playerHealth").style.width = player.health + "%";
   }
+
+  //if enemy misses 
+  if(enemy.isAttacking && enemy.framesCurrent === 1){
+    enemy.isAttacking = false
+  }
+
 
   // end game based on health
   if (enemy.health <= 0 || player.health <= 0) {
@@ -204,7 +314,7 @@ window.addEventListener("keydown", (event) => {
       enemy.velocity.y = -20;
       break;
     case "ArrowDown":
-      enemy.isAttacking = true;
+      enemy.attack()
       break;
   }
 });
