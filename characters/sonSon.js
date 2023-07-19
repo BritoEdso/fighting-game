@@ -4,11 +4,6 @@ export const sonSon = {
     x: 0,
     y: 0,
   },
-  color: "blue",
-  offset: {
-    x: 50,
-    y: 0,
-  },
   imageSrc: "./img/SonSon/SonSon_idle.png",
   framesMax: 6,
   scale: 1,
@@ -60,7 +55,7 @@ export const sonSon = {
   },
   attackbox: {
     offset: {
-      x: 40,
+      x: 0,
       y: 100,
     },
     width: 25,

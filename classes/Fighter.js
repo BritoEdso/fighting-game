@@ -68,7 +68,20 @@ export class Fighter extends Sprite {
     
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
-    
+
+    c.fillRect(
+      this.attackbox.position.x ,
+      this.attackbox.position.y ,
+      this.attackbox.width,
+      this.attackbox.height
+    )
+
+    c.fillRect(
+      this.position.x ,
+      this.position.y ,
+      this.width,
+      this.height
+    )
 
     // gravity stuff
     if (this.position.y + this.height + this.velocity.y >= canvas.height - 70) {
