@@ -1,3 +1,4 @@
+import { gameOver } from "../engine/end-match.js";
 import { c, canvas, gravity } from "../index.js";
 import { Sprite } from "./Sprite.js";
 
@@ -65,6 +66,7 @@ export class Fighter extends Sprite {
   }
 
   update() {
+    console.log(gameOver)
     this.draw();
     if (!this.dead) this.animateFrame();
 
@@ -102,14 +104,14 @@ export class Fighter extends Sprite {
     this.isAttacking = true;
   }
 
-  takeHit() {
-    this.health -= 20;
-
-    if (this.health <= 0) {
-      this.switchSprtie("death");
-    } else {
-      this.switchSprtie("takeHit");
-    }
+  takeHit(damage = 20) {
+    if (gameOver === false) {
+      this.health -= damage;
+      if (this.health <= 0) {
+        this.switchSprtie("death");
+      } else {
+        this.switchSprtie("takeHit");
+      }}
   }
 
   switchSprtie(sprite) {
@@ -141,6 +143,7 @@ export class Fighter extends Sprite {
           this.offset = this.sprites.idle.offset || this.offset;
           this.framesHold = this.sprites.idle.framesHold || this.framesHold;
           this.scale = this.sprites.idle.scale || this.scale;
+          this.damage = this.sprites.idle.damage || this.damage;
           this.framesCurrent = 0;
         }
         break;
@@ -174,6 +177,7 @@ export class Fighter extends Sprite {
           this.image = this.sprites.attack.image;
           this.framesMax = this.sprites.attack.framesMax;
           this.offset = this.sprites.attack.offset || this.offset;
+          this.scale = this.sprites.attack.scale || this.scale;
           this.framesCurrent = 0;
         }
         break;

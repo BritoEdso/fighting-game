@@ -35,7 +35,7 @@ const loadGame = () => {
 
 //init load
 loadGame();
-
+console.log("dog")
 const skipReadyCheck = () => {
   playerControls();
   decreaseTimer();
