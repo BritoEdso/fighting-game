@@ -66,7 +66,6 @@ export class Fighter extends Sprite {
     this.attackbox.position.x = this.position.x + this.attackbox.offset.x;
     this.attackbox.position.y = this.position.y + this.attackbox.offset.y;
     
-
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
     
