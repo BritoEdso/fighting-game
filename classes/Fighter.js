@@ -21,7 +21,7 @@ export class Fighter extends Sprite {
       offset,
     });
     this.showHitbox; //shows the hitbox
-    this.isReady = false, 
+    this.isReady, 
     this.velocity = velocity;
     this.width = 50;
     this.height = 150;

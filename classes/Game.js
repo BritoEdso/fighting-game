@@ -14,8 +14,10 @@ export class Game {
     this.activeAccessories = null;
     this.activePlayer = null;
     this.activeEnemy = null;
+    this.startBattle = false;
     this.skip = false;
-    this.showHitbox = true
+    this.alreadyRan = false;
+    this.showHitbox = true;
   }
 
   // export the active game configs to be used elsewhere
@@ -33,9 +35,12 @@ export class Game {
   }
 
   startGame() {
-    animate();
-    this.readyCheck();
-    this.toggleHitBoxVisualizers();
+    this.readyCheck()
+
+    if((this.activePlayer.isReady && this.activeEnemy.isReady) || this.skip){
+      animate();
+      this.toggleHitBoxVisualizers();
+    }
   }
 
   loadGame() {
@@ -43,36 +48,59 @@ export class Game {
     this.activePlayer = this.generateRandomPlayer();
     this.activeEnemy = this.generateRandomEnemy();
     this.activeAccessories = this.generateRandomAccessories();
+    
   }
 
-  readyCheck(event) {
+  readyCheck() {
+    if(this.alreadyRan) return
     if (this.skip) {
-      switch (event.key) {
-        case " ":
-          this.activePlayer.setReady();
-          document.getElementById("readyPlayerOne").style.color = "lightgreen";
-          break;
-        case "ArrowDown":
-          this, this.activeEnemy.setReady();
-          document.getElementById("readyEnemyOne").style.color = "lightgreen";
-          break;
-      }
-
-      if (
-        this.activePlayer.isReady === true &&
-        this.activeEnemy.isReady === true
-      ) {
-        playerControls();
-        decreaseTimer();
-        document.getElementById("readyBar").remove();
-        window.removeEventListener("keydown");
-      }
-    } else {
       playerControls();
       decreaseTimer();
       document.getElementById("readyBar").remove();
       window.removeEventListener("keydown", this.readyCheck);
-    }
+      console.log('a')
+      this.alreadyRan = true;
+    } else {
+      window.addEventListener("keyup", (event) => {
+        if(event.key === ' '){
+          this.activePlayer.setReady();
+          console.log('wtf', this.activePlayer.isReady)
+            document.getElementById("readyPlayerOne").style.color =
+              "lightgreen";
+              
+        } else if (event.key === "ArrowDown") {
+          this.activeEnemy.setReady();
+          console.log('wtf', this.activePlayer.isReady)
+          console.log('wtf', this.activeEnemy.isReady)
+          document.getElementById("readyEnemyOne").style.color = "lightgreen";
+        }
+        if(this.activeEnemy.isReady && this.activePlayer.isReady) {
+          this.startBattle = true
+        }
+
+      })
+
+        console.log('bsss', !this.alreadyRan)
+        console.log('startBattle?', this.startBattle)
+        console.log('player1 ready?', this.activePlayer.isReady)
+        console.log('player2 ready?', this.activeEnemy.isReady)
+
+
+
+        if (
+          this.activePlayer.isReady === true &&
+          this.activeEnemy.isReady === true && !this.alreadyRan
+        ) {
+          console.log('d')
+          playerControls();
+          decreaseTimer();
+          document.getElementById("readyBar").remove();
+          window.removeEventListener("keydown", this.readyCheck);
+          console.log('c')
+          this.alreadyRan = true
+        }
+        console.log('already ran?', this.alreadyRan)
+      }
   }
 
   toggleHitBoxVisualizers() {

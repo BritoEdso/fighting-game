@@ -1,12 +1,15 @@
 import { nightBorne } from "./characters/nightBorne.js";
 import { sonSon } from "./characters/sonSon.js";
 import { Game } from "./classes/Game.js";
-import { setShop, setStage } from "./stages/setStage.js";
+import { Sprite } from "./classes/Sprite.js";
+import { setLoading, setShop, setStage } from "./stages/setStage.js";
 
 // global variables
 export const canvas = document.querySelector("canvas");
 export const c = canvas.getContext("2d");
 export const gravity = 0.8;
+
+
 
 let game;
 export let player;
@@ -17,8 +20,12 @@ export let shop;
 // set main loading stage
 canvas.width = 1024;
 canvas.height = 576;
+const loadingScreen = new Image()
+loadingScreen.src = './img/loading_screen.png'
 
-c.fillRect(0, 0, canvas.width, canvas.height);
+loadingScreen.onload = function(){
+    c.drawImage(loadingScreen, 0, 0)
+}
 
 // set game configurations
 const gameConfigs = {
