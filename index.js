@@ -30,7 +30,7 @@ export let lastKey;
 
 decreaseTimer();
 animate();
-
+console.log('hello')
 window.addEventListener("keydown", (event) => {
   //player movement
   if (!player.dead) {
