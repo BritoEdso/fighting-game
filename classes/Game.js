@@ -18,6 +18,7 @@ export class Game {
     this.showHitbox = true
   }
 
+  // export the active game configs to be used elsewhere
   activePlayer() {
     return this.activePlayer;
   }
