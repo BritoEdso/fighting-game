@@ -4,7 +4,15 @@ export const nightBorne = {
     x: 0,
     y: 0,
   },
-
+  // TODO: figure out how to get rid of this. code was yelling without it
+    imageSrc: "./img/NightBorne/NightBorne_idle.png",
+    framesMax: 9,
+    scale: 2.75,
+    damage: 35,
+    offset: {
+      x: -90,
+      y: 30,
+    },
   // character hurtbox
   offset: {
     x: 10,
@@ -82,4 +90,6 @@ export const nightBorne = {
     width: 120,
     height: 100,
   },
+  // shows the character's hitbox
+  showHitbox: false
 };

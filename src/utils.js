@@ -1,4 +1,3 @@
-import { gameOver } from "../engine/animate.js";
 import { toggleGameOver } from "../engine/end-match.js";
 import { player, enemy } from "../index.js";
 

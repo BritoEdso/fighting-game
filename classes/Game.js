@@ -1,192 +1,111 @@
-// import { Fighter } from "./Fighter";
-// import { Sprite } from "./Sprite";
+import { animate } from "../engine/animate.js";
+import { playerControls } from "../engine/player-controls.js";
+import { decreaseTimer } from "../src/utils.js";
+import { Fighter } from "./Fighter.js";
+import { Sprite } from "./Sprite.js";
 
-// export class Game {
-//   constructor({ sprite, fighter, audioSrc }) {
-//     this.audio = new Audio();
-//     this.audio.src = audioSrc;
-//     this.sprite = new Sprite();
-//     this.fighter = new Fighter();
-//   }
+export class Game {
+  constructor({ setStage, setShop, player, enemy }) {
+    this.stage = [new Sprite(setStage)];
+    this.stageAccessories = [new Sprite(setShop)];
+    this.player = [new Fighter(player)];
+    this.enemy = [new Fighter(enemy)];
+    this.activeStage = null;
+    this.activeAccessories = null;
+    this.activePlayer = null;
+    this.activeEnemy = null;
+    this.skip = false;
+    this.showHitbox = true
+  }
 
-//   startGame() {
-//     c.fillRect(0, 0, canvas.width, canvas.height);
-//     const shop = new Sprite({
-//       position: {
-//         x: 600,
-//         y: 152,
-//       },
-//       imageSrc: "./img/shop.png",
-//       scale: 2.75,
-//       framesMax: 6,
-//     });
-//   }
+  // export the active game configs to be used elsewhere
+  activePlayer() {
+    return this.activePlayer;
+  }
+  activeStage() {
+    return this.activeStage;
+  }
+  activeEnemy() {
+    return this.activeEnemy;
+  }
+  activeAccessories() {
+    return this.activeAccessories;
+  }
 
-//   player1(){
-//     this.fighter({
-//         position: { x: 100, y: 0 },
-//         velocity: {
-//           x: 0,
-//           y: 0,
-//         },
-//         imageSrc: "./img/NightBorne/NightBorne_idle.png",
-//         framesMax: 9,
-//         scale: 2.75,
-//         offset: {
-//           x: 10,
-//           y: 30,
-//         },
-//         sprites: {
-//           idle: {
-//             imageSrc: "./img/NightBorne/NightBorne_idle.png",
-//             framesMax: 9,
-//             scale: 2.75,
-//             offset: {
-//               x: -90,
-//               y: 30,
-//             },
-//           },
-//           run: {
-//             imageSrc: "./img/NightBorne/NightBorne_run.png",
-//             scale: 2.75,
-//             framesMax: 5,
-//             offset: {
-//               x: -90,
-//               y: 30,
-//             },
-//           },
-//           jump: {
-//             imageSrc: "./img/NightBorne/NightBorne_idle.png",
-//             framesMax: 9,
-//             offset: {
-//               x: -90,
-//               y: 30,
-//             },
-//           },
-//           fall: {
-//             imageSrc: "./img/NightBorne/NightBorne_idle.png",
-//             framesMax: 9,
-//             offset: {
-//               x: -90,
-//               y: 30,
-//             },
-//           },
-//           attack: {
-//             imageSrc: "./img/NightBorne/NightBorne_attack.png",
-//             framesMax: 12,
-//             offset: {
-//               x: 0,
-//               y: -15,
-//             },
-//           },
-//           takeHit: {
-//             imageSrc: "./img/NightBorne/NightBorne_takeHit.png",
-//             scale: 2,
-//             framesMax: 5,
-//             offset: {
-//               x: -100,
-//               y: 42,
-//             },
-//           },
-//           death: {
-//             imageSrc: "./img/NightBorne/NightBorne_death.png",
-//             scale: 2,
-//             framesMax: 24,
-//             offset: {
-//               x: -100,
-//               y: -20,
-//             },
-//           },
-//         },
-//         attackbox: {
-//           offset: {
-//             x: 140,
-//             y: 50,
-//           },
-//           width: 120,
-//           height: 100,
-//         },
-//         hitBox: {
-//           position: {
-//             x: 1000,
-//             y: 0,
-//           },
-//           width: 10020,
-//           height: 100,
-//         },
-//       });
-//   }
+  startGame() {
+    animate();
+    this.readyCheck();
+    this.toggleHitBoxVisualizers();
+  }
 
-//   player2(){
-//     this.fighter({
-//         position: { x: 800, y: 100 },
-//         velocity: {
-//           x: 0,
-//           y: 0,
-//         },
-//         color: "blue",
-//         offset: {
-//           x: 50,
-//           y: 0,
-//         },
-//         imageSrc: "./img/SonSon/SonSon_idle.png",
-//         framesMax: 6,
-//         scale: 1,
-//         offset: {
-//           x: -10,
-//           y: 90,
-//         },
-//         sprites: {
-//           idle: {
-//             imageSrc: "./img/SonSon/SonSon_idle.png",
-//             framesMax: 6,
-//             framesHold: 20,
-//           },
-//           run: {
-//             imageSrc: "./img/SonSon/SonSon_runForward.png",
-//             framesMax: 1,
-//           },
-//           runBackwards: {
-//             imageSrc: "./img/SonSon/SonSon_runBackwards.png",
-//             framesMax: 1,
-//           },
-//           jump: {
-//             imageSrc: "./img/SonSon/SonSon_jump.png",
-//             framesMax: 1,
-//           },
-//           fall: {
-//             imageSrc: "./img/SonSon/SonSon_fall.png",
-//             framesMax: 1,
-//           },
-//           attack: {
-//             imageSrc: "./img/SonSon/SonSon_attack.png",
-//             framesMax: 4,
-//           },
-//           takeHit: {
-//             imageSrc: "./img/SonSon/SonSon_TakeHit.png",
-//             framesMax: 2,
-//             framesHold: 60,
-      
-//           },
-//           death: {
-//             imageSrc: "./img/SonSon/SonSon_death.png",
-//             scale: 0,
-//             framesHold: 60,
-//             framesMax: 4,
-//             offset: {
-//               x: 0,
-//               y: 90,
-//             },
-//           },
-//         },
-//         attackbox: {
-//           offset: {
-//             x: 40,
-//             y: 100,
-//           },
-//           width: 25,
-//           height: 40,
-//         },
-//       });
-//   }
-// }
+  loadGame() {
+    this.activeStage = this.generateRandomStage();
+    this.activePlayer = this.generateRandomPlayer();
+    this.activeEnemy = this.generateRandomEnemy();
+    this.activeAccessories = this.generateRandomAccessories();
+  }
+
+  readyCheck(event) {
+    if (this.skip) {
+      switch (event.key) {
+        case " ":
+          this.activePlayer.setReady();
+          document.getElementById("readyPlayerOne").style.color = "lightgreen";
+          break;
+        case "ArrowDown":
+          this, this.activeEnemy.setReady();
+          document.getElementById("readyEnemyOne").style.color = "lightgreen";
+          break;
+      }
+
+      if (
+        this.activePlayer.isReady === true &&
+        this.activeEnemy.isReady === true
+      ) {
+        playerControls();
+        decreaseTimer();
+        document.getElementById("readyBar").remove();
+        window.removeEventListener("keydown");
+      }
+    } else {
+      playerControls();
+      decreaseTimer();
+      document.getElementById("readyBar").remove();
+      window.removeEventListener("keydown", this.readyCheck);
+    }
+  }
+
+  toggleHitBoxVisualizers() {
+    if (this.showHitbox) {
+      this.activePlayer.showHitbox = true;
+      this.activeEnemy.showHitbox = true;
+    } else {
+      this.activePlayer.showHitbox = false;
+      this.activeEnemy.showHitbox = false;
+    }
+  }
+
+  // can use these later for random stages and random enemy picks
+
+  generateRandomPlayer() {
+    const randomPlayer = Math.floor(Math.random() * this.player.length);
+    return this.player[randomPlayer];
+  }
+
+  generateRandomEnemy() {
+    const randomEnemy = Math.floor(Math.random() * this.enemy.length);
+    return this.enemy[randomEnemy];
+  }
+
+  generateRandomStage() {
+    const randomStage = Math.floor(Math.random() * this.stage.length);
+    return this.stage[randomStage];
+  }
+
+  generateRandomAccessories() {
+    const randomAccessories = Math.floor(
+      Math.random() * this.stageAccessories.length
+    );
+    return this.stageAccessories[randomAccessories];
+  }
+}

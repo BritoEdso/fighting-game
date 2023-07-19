@@ -6,9 +6,9 @@ import {
   canvas,
   player,
   enemy,
-  lastKey,
   shop,
 } from "../index.js";
+import { lastKey } from "../src/helper.js";
 import {
   determineWinner,
   rectangularCollision,

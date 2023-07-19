@@ -6,7 +6,6 @@ export class Fighter extends Sprite {
   constructor({
     position,
     velocity,
-    color = "red",
     imageSrc,
     scale = 1,
     framesMax = 1,
@@ -21,8 +20,7 @@ export class Fighter extends Sprite {
       framesMax,
       offset,
     });
-
-    this.showHitbox = false;
+    this.showHitbox; //shows the hitbox
     this.isReady = false, 
     this.velocity = velocity;
     this.width = 50;
@@ -46,7 +44,6 @@ export class Fighter extends Sprite {
       width: attackbox.width,
       height: attackbox.height,
     };
-    this.color = color;
     this.isAttacking;
     this.health = 100;
     this.framesCurrent = 0;
@@ -66,7 +63,6 @@ export class Fighter extends Sprite {
   }
 
   update() {
-    console.log(gameOver)
     this.draw();
     if (!this.dead) this.animateFrame();
 
@@ -77,9 +73,8 @@ export class Fighter extends Sprite {
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
+    //  show hitbox logic
     if (this.showHitbox) {
-      // toggle hitbox
-      // show attackbox
       c.fillRect(
         this.attackbox.position.x,
         this.attackbox.position.y,
