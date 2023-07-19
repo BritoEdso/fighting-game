@@ -21,6 +21,8 @@ export class Fighter extends Sprite {
       offset,
     });
 
+    this.showHitbox = false;
+    this.isReady = false, 
     this.velocity = velocity;
     this.width = 50;
     this.height = 150;
@@ -50,7 +52,7 @@ export class Fighter extends Sprite {
     this.framesElapsed = 0;
     this.framesHold = 10;
     this.sprites = sprites;
-    this.dead = false
+    this.dead = false;
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();
@@ -58,9 +60,13 @@ export class Fighter extends Sprite {
     }
   }
 
+  setReady() {
+    this.isReady = true;
+  }
+
   update() {
     this.draw();
-    if(!this.dead) this.animateFrame();
+    if (!this.dead) this.animateFrame();
 
     // attack boxes
     this.attackbox.position.x = this.position.x + this.attackbox.offset.x;
@@ -69,20 +75,19 @@ export class Fighter extends Sprite {
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
-    c.fillRect(
-      this.attackbox.position.x ,
-      this.attackbox.position.y ,
-      this.attackbox.width,
-      this.attackbox.height
-    )
+    if (this.showHitbox) {
+      // toggle hitbox
+      // show attackbox
+      c.fillRect(
+        this.attackbox.position.x,
+        this.attackbox.position.y,
+        this.attackbox.width,
+        this.attackbox.height
+      );
 
-    c.fillRect(
-      this.position.x ,
-      this.position.y ,
-      this.width,
-      this.height
-    )
-
+      // show hitbox
+      c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    }
     // gravity stuff
     if (this.position.y + this.height + this.velocity.y >= canvas.height - 70) {
       this.velocity.y = 0;
@@ -100,18 +105,18 @@ export class Fighter extends Sprite {
   takeHit() {
     this.health -= 20;
 
-    if(this.health <= 0) {
-      this.switchSprtie('death')
+    if (this.health <= 0) {
+      this.switchSprtie("death");
     } else {
       this.switchSprtie("takeHit");
     }
   }
 
   switchSprtie(sprite) {
-    if(this.image === this.sprites.death.image) {
-      if(this.framesCurrent === this.sprites.death.framesMax -1)
-      this.dead = true
-      return
+    if (this.image === this.sprites.death.image) {
+      if (this.framesCurrent === this.sprites.death.framesMax - 1)
+        this.dead = true;
+      return;
     }
     //override when attacking
     if (
