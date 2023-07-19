@@ -43,8 +43,3 @@ export const decreaseTimer = () => {
     determineWinner({ player, enemy, timerId });
   }
 };
-
-export let lastKey;
-export const lastKeyHelper = (arg) => {
-  lastKey = arg;
-};

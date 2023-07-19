@@ -8,9 +8,9 @@ import {
   enemy,
   shop,
 } from "../index.js";
+import { lastKey } from "../src/helper.js";
 import {
   determineWinner,
-  lastKey,
   rectangularCollision,
   timerId,
 } from "../src/utils.js";
