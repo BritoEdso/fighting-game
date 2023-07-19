@@ -4,9 +4,9 @@ import {
   background,
   c,
   canvas,
+  player,
   enemy,
   lastKey,
-  player,
   shop,
 } from "../index.js";
 import {
@@ -14,6 +14,8 @@ import {
   rectangularCollision,
   timerId,
 } from "../src/utils.js";
+
+export let gameOver = false;
 
 export const animate = () => {
   window.requestAnimationFrame(animate);
@@ -30,10 +32,14 @@ export const animate = () => {
   enemy.velocity.x = 0;
 
   // player movement
-  if (p1Controls.a.pressed && lastKey === "a") {
+  if (p1Controls.a.pressed && lastKey === "a" && player.position.x >= 0) {
     player.velocity.x = -5;
     player.switchSprtie("run");
-  } else if (p1Controls.d.pressed && lastKey === "d") {
+  } else if (
+    p1Controls.d.pressed &&
+    lastKey === "d" &&
+    player.position.x <= 1024 - player.width
+  ) {
     player.velocity.x = 5;
     player.switchSprtie("run");
   } else {
@@ -48,10 +54,10 @@ export const animate = () => {
   }
 
   // enemy movement
-  if (p2Controls.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
+  if (p2Controls.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft" && enemy.position.x >= 0) {
     enemy.velocity.x = -5;
     enemy.switchSprtie("run");
-  } else if (p2Controls.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
+  } else if (p2Controls.ArrowRight.pressed && enemy.lastKey === "ArrowRight" && enemy.position.x <= 1024 - enemy.width) {
     enemy.velocity.x = 5;
     enemy.switchSprtie("runBackwards");
   } else {
@@ -75,7 +81,7 @@ export const animate = () => {
     player.isAttacking &&
     player.framesCurrent === 7
   ) {
-    enemy.takeHit();
+    enemy.takeHit(player.damage);
     player.isAttacking = false;
     gsap.to("#enemyhealth", {
       width: enemy.health + "%",
@@ -96,7 +102,7 @@ export const animate = () => {
     }) &&
     enemy.isAttacking
   ) {
-    player.takeHit();
+    player.takeHit(enemy.damage);
     enemy.isAttacking = false;
     gsap.to("#playerHealth", {
       width: player.health + "%",

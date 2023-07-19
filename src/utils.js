@@ -1,3 +1,5 @@
+import { gameOver } from "../engine/animate.js";
+import { toggleGameOver } from "../engine/end-match.js";
 import { player, enemy } from "../index.js";
 
 export const rectangularCollision = ({ rectangle1, rectangle2, offset }) => {
@@ -19,10 +21,13 @@ export const determineWinner = ({ player, enemy, timerId }) => {
 
   if (player.health === enemy.health) {
     document.querySelector("#displayText").innerHTML = "Tie";
+    toggleGameOver()
   } else if (player.health > enemy.health) {
     document.querySelector("#displayText").innerHTML = "Player 1 Wins!";
+    toggleGameOver()
   } else if (player.health < enemy.health) {
     document.querySelector("#displayText").innerHTML = "Player 2 Wins!";
+    toggleGameOver()
   }
 };
 
