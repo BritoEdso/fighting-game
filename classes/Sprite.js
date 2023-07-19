@@ -1,12 +1,14 @@
 import { c } from "../index.js";
 
 export class Sprite {
-  constructor({ position, imageSrc, scale = 1, framesMax = 1, offset = {x:0 , y:0} }) {
+  constructor({ position, imageSrc, audioSrc, scale = 1, framesMax = 1, offset = {x:0 , y:0} }) {
     this.position = position;
     this.width = 50;
     this.height = 150;
     this.image = new Image();
+    this.audio = new Audio()
     this.image.src = imageSrc;
+    this.audio.src = audioSrc
     this.scale = scale;
     this.framesMax = framesMax;
     this.framesCurrent = 0;
@@ -27,6 +29,7 @@ export class Sprite {
       (this.image.width / this.framesMax) * this.scale,
       this.image.height * this.scale
     );
+    this.audio.play()
   }
 
   animateFrame(){

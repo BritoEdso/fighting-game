@@ -22,6 +22,7 @@ const background = new Sprite({
     y: 0,
   },
   imageSrc: "./img/Background.png",
+  audioSrc: "./game_music/bump.mp3",
 });
 
 const shop = new Sprite({
@@ -224,6 +225,8 @@ const animate = () => {
   c.fillRect(0, 0, canvas.width, canvas.height);
   background.update();
   shop.update();
+  c.fillStyle = 'rgba(255, 255, 255, 0.15)'
+  c.fillRect(0, 0, canvas.width, canvas.height)
   player.update();
   enemy.update();
 
@@ -278,7 +281,9 @@ const animate = () => {
   ) {
     enemy.takeHit();
     player.isAttacking = false;
-    document.querySelector("#enemyHealth").style.width = enemy.health + "%";
+    gsap.to('#enemyhealth', {
+      width: enemy.health + '%'
+    })
   }
 
   // if player misses
@@ -297,7 +302,9 @@ const animate = () => {
   ) {
     player.takeHit();
     enemy.isAttacking = false;
-    document.querySelector("#playerHealth").style.width = player.health + "%";
+    gsap.to('#playerHealth', {
+      width: player.health + '%'
+    })
   }
 
   //if enemy misses
