@@ -30,7 +30,6 @@ export let lastKey;
 
 decreaseTimer();
 animate();
-console.log('hello')
 window.addEventListener("keydown", (event) => {
   //player movement
   if (!player.dead) {
@@ -44,7 +43,9 @@ window.addEventListener("keydown", (event) => {
         lastKey = "a";
         break;
       case "w":
-        player.velocity.y = -20;
+        if(player.velocity.y === 0) {
+          player.velocity.y = -20;
+        }
         break;
       case " ":
         player.attack();
@@ -64,7 +65,9 @@ window.addEventListener("keydown", (event) => {
         enemy.lastKey = "ArrowLeft";
         break;
       case "ArrowUp":
-        enemy.velocity.y = -20;
+        if(enemy.velocity.y === 0) {
+          enemy.velocity.y = -20;
+        }
         break;
       case "ArrowDown":
         enemy.attack();
