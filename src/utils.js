@@ -1,4 +1,3 @@
-import { gameOver } from "../engine/animate.js";
 import { toggleGameOver } from "../engine/end-match.js";
 import { player, enemy } from "../index.js";
 
@@ -43,4 +42,9 @@ export const decreaseTimer = () => {
   if (timer === 0) {
     determineWinner({ player, enemy, timerId });
   }
+};
+
+export let lastKey;
+export const lastKeyHelper = (arg) => {
+  lastKey = arg;
 };

@@ -4,6 +4,10 @@ export const sonSon = {
     x: 0,
     y: 0,
   },
+  // TODO: figure out how to get rid of this, game was yelling without it
+    imageSrc: "./img/SonSon/SonSon_idle.png",
+    framesMax: 6,
+    framesHold: 20,
 
   // character hurtbox
   offset: {
@@ -60,4 +64,6 @@ export const sonSon = {
     width: 25,
     height: 40,
   },
+  // toggle enemy hitbox
+  hitbox: false
 };

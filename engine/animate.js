@@ -6,11 +6,11 @@ import {
   canvas,
   player,
   enemy,
-  lastKey,
   shop,
 } from "../index.js";
 import {
   determineWinner,
+  lastKey,
   rectangularCollision,
   timerId,
 } from "../src/utils.js";
