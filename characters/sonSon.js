@@ -57,7 +57,7 @@ export const sonSon = {
   },
   attackbox: {
     offset: {
-      x: 40,
+      x: 0,
       y: 100,
     },
     width: 25,
