@@ -7,6 +7,8 @@ export const sonSon = {
   imageSrc: "./img/SonSon/SonSon_idle.png",
   framesMax: 6,
   scale: 1,
+  
+  // character hurtbox
   offset: {
     x: -10,
     y: 90,

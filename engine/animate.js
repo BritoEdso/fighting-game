@@ -1,7 +1,19 @@
 import { p1Controls } from "../characters/character_actions/player1-controls.js";
 import { p2Controls } from "../characters/character_actions/player2-controls.js";
-import { background, c, canvas, enemy, lastKey, player, shop } from "../index.js";
-import { determineWinner, rectangularCollision, timerId } from "../src/utils.js";
+import {
+  background,
+  c,
+  canvas,
+  enemy,
+  lastKey,
+  player,
+  shop,
+} from "../index.js";
+import {
+  determineWinner,
+  rectangularCollision,
+  timerId,
+} from "../src/utils.js";
 
 export const animate = () => {
   window.requestAnimationFrame(animate);

@@ -1,0 +1,29 @@
+:root {
+  --ready-text-color: aliceblue;
+}
+
+#readyBar {
+  position: absolute;
+  display: flex;
+  top: 200px;
+  width: 1024px;
+  height: 200px;
+  /* border: 2px solid black; */
+  align-items: center;
+}
+
+#readyPlayerOne {
+  color: var(--ready-text-color);
+  margin: auto;
+  font-size: 32px;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+
+#readyEnemyOne {
+  color: var(--ready-text-color);
+  margin: auto;
+  font-size: 32px;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}

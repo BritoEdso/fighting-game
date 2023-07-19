@@ -1,14 +1,10 @@
-import { p1Controls } from "./characters/character_actions/player1-controls.js";
-import { p2Controls } from "./characters/character_actions/player2-controls.js";
 import { nightBorne } from "./characters/nightBorne.js";
 import { sonSon } from "./characters/sonSon.js";
 import { Fighter } from "./classes/Fighter.js";
 import { Sprite } from "./classes/Sprite.js";
 import { animate } from "./engine/animate.js";
-import {
-  decreaseTimer,
-
-} from "./src/utils.js";
+import { playerControls } from "./engine/player-controls.js";
+import { decreaseTimer } from "./src/utils.js";
 import { setShop, setStage } from "./stages/setStage.js";
 
 export const canvas = document.querySelector("canvas");
@@ -23,72 +19,63 @@ export const gravity = 0.8;
 export const background = new Sprite(setStage);
 export const shop = new Sprite(setShop);
 
-export const player = new Fighter(nightBorne);
+export const player = new Fighter(nightBorne); //swapping the player characters breaks the game
 export const enemy = new Fighter(sonSon);
 
+// exported variables are immutable. helper function allows controls.js to function
+// note: enemy doesn't require lastkey for some reason
 export let lastKey;
+export const lastKeyHelper = (arg) => {
+  lastKey = arg;
+};
 
-decreaseTimer();
-animate();
-console.log('hello')
-window.addEventListener("keydown", (event) => {
-  //player movement
-  if (!player.dead) {
-    switch (event.key) {
-      case "d":
-        p1Controls.d.pressed = true;
-        lastKey = "d";
-        break;
-      case "a":
-        p1Controls.a.pressed = true;
-        lastKey = "a";
-        break;
-      case "w":
-        player.velocity.y = -20;
-        break;
-      case " ":
-        player.attack();
-        break;
-    }
-  }
+const loadGame = () => {
+  animate();
+};
 
-  //enemy movement
-  if (!enemy.dead) {
-    switch (event.key) {
-      case "ArrowRight":
-        p2Controls.ArrowRight.pressed = true;
-        enemy.lastKey = "ArrowRight";
-        break;
-      case "ArrowLeft":
-        p2Controls.ArrowLeft.pressed = true;
-        enemy.lastKey = "ArrowLeft";
-        break;
-      case "ArrowUp":
-        enemy.velocity.y = -20;
-        break;
-      case "ArrowDown":
-        enemy.attack();
-        break;
-    }
-  }
-});
+//init load
+loadGame();
 
-window.addEventListener("keyup", (event) => {
+const skipReadyCheck = () => {
+  playerControls();
+  decreaseTimer();
+  document.getElementById("readyBar").remove();
+  window.removeEventListener("keydown", readyCheck);
+};
+
+function readyCheck(event) {
+  console.log(event.key);
   switch (event.key) {
-    case "d":
-      p1Controls.d.pressed = false;
+    case " ":
+      player.setReady();
+      document.getElementById("readyPlayerOne").style.color = "lightgreen";
       break;
-    case "a":
-      p1Controls.a.pressed = false;
+    case "ArrowDown":
+      enemy.setReady();
+      document.getElementById("readyEnemyOne").style.color = "lightgreen";
       break;
   }
 
-  switch (event.key) {
-    case "ArrowRight":
-      p2Controls.ArrowRight.pressed = false;
-      break;
-    case "ArrowLeft":
-      p2Controls.ArrowLeft.pressed = false;
-      break;
+  if (player.isReady === true && enemy.isReady === true) {
+    playerControls();
+    decreaseTimer();
+    document.getElementById("readyBar").remove();
+    window.removeEventListener("keydown", readyCheck);
   }
-});
+}
+
+window.addEventListener("keydown", readyCheck);
+
+skipReadyCheck();
+
+const toggleHitBoxVisualizers = () => {
+  if (player.showHitbox === false) {
+    player.showHitbox = true;
+    enemy.showHitbox = true;
+  } else {
+    player.showHitbox = false;
+    enemy.showHitbox = false;
+  }
+};
+
+toggleHitBoxVisualizers();

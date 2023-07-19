@@ -7,6 +7,8 @@ export const nightBorne = {
   imageSrc: "./img/NightBorne/NightBorne_idle.png",
   framesMax: 9,
   scale: 2.75,
+
+  // character hurtbox
   offset: {
     x: 10,
     y: 30,
