@@ -33,6 +33,7 @@ const gameConfigs = {
   setShop,
   player: nightBorne,
   enemy: sonSon,
+  skip: false,
 };
 
 // start the game
