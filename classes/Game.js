@@ -5,7 +5,7 @@ import { Fighter } from "./Fighter.js";
 import { Sprite } from "./Sprite.js";
 
 export class Game {
-  constructor({ setStage, setShop, player, enemy }) {
+  constructor({ setStage, setShop, player, enemy, skip }) {
     this.stage = [new Sprite(setStage)];
     this.stageAccessories = [new Sprite(setShop)];
     this.player = [new Fighter(player)];
@@ -14,10 +14,29 @@ export class Game {
     this.activeAccessories = null;
     this.activePlayer = null;
     this.activeEnemy = null;
-    this.skip = false;
-    this.showHitbox = true
+    this.startBattle = false;
+    this.skip = skip;
+    this.alreadyRan = false;
+    this.showHitbox = true;
+    this.readyHandler = function (event) {
+      if (event.key === " " && !this.activePlayer.isReady) {
+        this.activePlayer.setReady();
+        console.log("wtf", this.activePlayer.isReady);
+        document.getElementById("readyPlayerOne").style.color = "lightgreen";
+      } else if (event.key === "ArrowDown" && !this.activeEnemy.isReady) {
+        this.activeEnemy.setReady();
+        console.log("wtf", this.activePlayer.isReady);
+        console.log("wtf", this.activeEnemy.isReady);
+        document.getElementById("readyEnemyOne").style.color = "lightgreen";
+      }
+      if (this.activeEnemy.isReady && this.activePlayer.isReady) {
+        this.startBattle = true;
+        this.beginBattle();
+        console.log("dog");
+        document.removeEventListener("keydown", this.readyCheckHandler, false);
+      }
+    };
   }
-
   // export the active game configs to be used elsewhere
   activePlayer() {
     return this.activePlayer;
@@ -33,9 +52,12 @@ export class Game {
   }
 
   startGame() {
-    animate();
     this.readyCheck();
-    this.toggleHitBoxVisualizers();
+
+    if ((this.activePlayer.isReady && this.activeEnemy.isReady) || this.skip) {
+      animate();
+      this.toggleHitBoxVisualizers();
+    }
   }
 
   loadGame() {
@@ -45,33 +67,38 @@ export class Game {
     this.activeAccessories = this.generateRandomAccessories();
   }
 
-  readyCheck(event) {
+  beginBattle() {
+    animate();
+    playerControls();
+    decreaseTimer();
+    document.getElementById("readyBar").remove();
+    window.removeEventListener("keydown", this.readyCheck);
+    console.log("a");
+    this.alreadyRan = true;
+  }
+
+  readyCheck() {
+    this.readyCheckHandler = this.readyHandler.bind(this);
+
+    if (this.alreadyRan) return;
     if (this.skip) {
-      switch (event.key) {
-        case " ":
-          this.activePlayer.setReady();
-          document.getElementById("readyPlayerOne").style.color = "lightgreen";
-          break;
-        case "ArrowDown":
-          this, this.activeEnemy.setReady();
-          document.getElementById("readyEnemyOne").style.color = "lightgreen";
-          break;
-      }
+      this.beginBattle();
+    } else {
+      document.addEventListener("keydown", this.readyCheckHandler, false);
+
+      console.log("bsss", !this.alreadyRan);
+      console.log("startBattle?", this.startBattle);
+      console.log("player1 ready?", this.activePlayer.isReady);
+      console.log("player2 ready?", this.activeEnemy.isReady);
 
       if (
         this.activePlayer.isReady === true &&
-        this.activeEnemy.isReady === true
+        this.activeEnemy.isReady === true &&
+        !this.alreadyRan
       ) {
-        playerControls();
-        decreaseTimer();
-        document.getElementById("readyBar").remove();
-        window.removeEventListener("keydown");
+        this.beginBattle();
       }
-    } else {
-      playerControls();
-      decreaseTimer();
-      document.getElementById("readyBar").remove();
-      window.removeEventListener("keydown", this.readyCheck);
+      console.log("already ran?", this.alreadyRan);
     }
   }
 

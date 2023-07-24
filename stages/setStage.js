@@ -6,6 +6,14 @@ export const setStage = {
   imageSrc: "./img/Background.png",
 };
 
+export const setLoading = {
+  position: {
+    x: 0,
+    y: 0,
+  },
+  imageSrc: "./img/loading_screen.png",
+};
+
 export const setShop = {
   position: {
     x: 600,
