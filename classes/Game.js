@@ -43,11 +43,9 @@ export class Game {
   startGame() {
     if (this.activePlayer.isReady && this.activeEnemy.isReady) {
       document.getElementById("readyBar").style.display = "none";
-      if (countdown === 0) {
         decreaseTimer();
         playerControls();
         this.toggleHitBoxVisualizers();
-      }
     }
   }
 
