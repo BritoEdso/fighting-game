@@ -6,12 +6,12 @@ import { Game } from "./classes/Game.js";
 import { animate } from "./engine/animate.js";
 import { countDown, readyCheck, skipReadyCheck } from "./utils.js";
 import { setShop, setStage } from "./stages/setStage.js";
-import { Restart } from "./components/Restart.js";
 import { ReadyBar } from "./components/readyCheck.js";
 import { PlayerHealth } from "./components/playerHealth.js";
 import { EnemyHealth } from "./components/enemyHealth.js";
 import { Timer } from "./components/timer.js";
 import { DisplayText } from "./components/displayText.js";
+import { RestartButton } from "./components/restartButton.js";
 // import {tmiClient} from "./twitch/index.js"
 
 // global variables
@@ -110,7 +110,7 @@ function App() {
         <Timer />
         <EnemyHealth />
         <DisplayText />
-        <Restart />
+        <RestartButton />
         <canvas></canvas>
       </ChildDivOfMainDivWhoIsAGreatDiv>
     </MainDiv>

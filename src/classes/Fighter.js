@@ -20,12 +20,13 @@ export class Fighter extends Sprite {
       framesMax,
       offset,
     });
-    this.showHitbox; //shows the hitbox
-    this.isReady, 
+    this.showHitbox = true; //shows the hitbox
+    // eslint-disable-next-line no-unused-expressions
+    this.isReady = null;
     this.velocity = velocity;
     this.width = 50;
     this.height = 150;
-    this.lastKey;
+    this.lastKey = null;
     this.attackbox = {
       position: {
         x: this.position.x,
@@ -44,7 +45,7 @@ export class Fighter extends Sprite {
       width: attackbox.width,
       height: attackbox.height,
     };
-    this.isAttacking;
+    this.isAttacking = false;
     this.health = 100;
     this.framesCurrent = 0;
     this.framesElapsed = 0;
@@ -106,7 +107,8 @@ export class Fighter extends Sprite {
         this.switchSprtie("death");
       } else {
         this.switchSprtie("takeHit");
-      }}
+      }
+    }
   }
 
   switchSprtie(sprite) {
@@ -131,6 +133,7 @@ export class Fighter extends Sprite {
       return;
     }
     switch (sprite) {
+      default:
       case "idle":
         if (this.image !== this.sprites.idle.image) {
           this.image = this.sprites.idle.image;

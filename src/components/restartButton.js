@@ -5,7 +5,7 @@ const RestartBtn = styled.button`
   display: none;
 `;
 
-export const Restart = () => {
+export const RestartButton = () => {
   return (
     <RestartBtn id="restart" onclick="">
       RESTART
