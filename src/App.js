@@ -110,8 +110,8 @@ function App() {
         <Timer />
         <EnemyHealth />
         <DisplayText />
-      <Restart />
-      <canvas></canvas>
+        <Restart />
+        <canvas></canvas>
       </ChildDivOfMainDivWhoIsAGreatDiv>
     </MainDiv>
   );
