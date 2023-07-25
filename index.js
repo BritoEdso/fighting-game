@@ -3,7 +3,8 @@ import { sonSon } from "./characters/sonSon.js";
 import { Game } from "./classes/Game.js";
 import { animate } from "./engine/animate.js";
 import { countDown, readyCheck, skipReadyCheck } from "./src/utils.js";
-import { setShop, setStage } from "./stages/setStage.js";
+import { setShop, setStage } from "./src/stages/setStage.js";
+// import {tmiClient} from "./twitch/index.js"
 
 // global variables
 export const canvas = document.querySelector("canvas");
@@ -16,6 +17,13 @@ export let enemy;
 export let background;
 export let shop;
 export let skipCheck = false;
+
+// tmiClient.connect().catch(console.error);
+
+// tmiClient.on('message', (message) => {
+//   console.log('you suck')
+//   console.log(message)
+// })
 
 // set main loading stage
 canvas.width = 1024;

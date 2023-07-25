@@ -1,4 +1,4 @@
-import { player, enemy, game } from "../index.js";
+import { player, enemy, game } from "./App.js";
 import { toggleGameOver } from "./helper.js";
 
 export const rectangularCollision = ({ rectangle1, rectangle2, offset }) => {

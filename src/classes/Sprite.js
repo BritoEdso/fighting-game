@@ -1,4 +1,4 @@
-import { c } from "../index.js";
+import { c } from "../App.js";
 
 export class Sprite {
   constructor({ position, imageSrc, scale = 1, framesMax = 1, offset = {x:0 , y:0} }) {
