@@ -1,6 +1,6 @@
 import { animate } from "../engine/animate.js";
 import { playerControls } from "../engine/player-controls.js";
-import { countdown, decreaseTimer } from "../src/utils.js";
+import { decreaseTimer } from "../src/utils.js";
 import { Fighter } from "./Fighter.js";
 import { Sprite } from "./Sprite.js";
 
