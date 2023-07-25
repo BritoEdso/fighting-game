@@ -1,7 +1,14 @@
+import React from "react";
+import { styled } from "styled-components";
+
+const RestartBtn = styled.button`
+  display: none;
+`;
+
 export const Restart = () => {
   return (
-    <button id="restart" style="display: none;" onclick="">
+    <RestartBtn id="restart" onclick="">
       RESTART
-    </button>
+    </RestartBtn>
   );
 };

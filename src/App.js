@@ -1,9 +1,17 @@
+import React from "react";
+import { styled } from "styled-components";
 import { nightBorne } from "./characters/nightBorne.js";
 import { sonSon } from "./characters/sonSon.js";
 import { Game } from "./classes/Game.js";
 import { animate } from "./engine/animate.js";
 import { countDown, readyCheck, skipReadyCheck } from "./utils.js";
 import { setShop, setStage } from "./stages/setStage.js";
+import { Restart } from "./components/Restart.js";
+import { ReadyBar } from "./components/readyCheck.js";
+import { PlayerHealth } from "./components/playerHealth.js";
+import { EnemyHealth } from "./components/enemyHealth.js";
+import { Timer } from "./components/timer.js";
+import { DisplayText } from "./components/displayText.js";
 // import {tmiClient} from "./twitch/index.js"
 
 // global variables
@@ -18,6 +26,18 @@ export let background;
 export let shop;
 export let skipCheck = false;
 
+const MainDiv = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const ChildDivOfMainDivWhoIsAGreatDiv = styled.div`
+  position: absolute;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 20px;
+`;
 // tmiClient.connect().catch(console.error);
 
 // tmiClient.on('message', (message) => {
@@ -83,19 +103,17 @@ document.querySelector("#restart").addEventListener("click", (e) => {
 
 function App() {
   return (
-    <>
-      <div
-        style="
-position: absolute;
-display: flex;
-width: 100%;
-align-items: center;
-padding: 20px;
-"
-      ></div>
-
+    <MainDiv>
+      <ChildDivOfMainDivWhoIsAGreatDiv>
+        <ReadyBar />
+        <PlayerHealth />
+        <Timer />
+        <EnemyHealth />
+        <DisplayText />
+      <Restart />
       <canvas></canvas>
-    </>
+      </ChildDivOfMainDivWhoIsAGreatDiv>
+    </MainDiv>
   );
 }
 

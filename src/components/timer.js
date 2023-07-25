@@ -1,8 +1,7 @@
-export const Timer = () => {
-  return (
-    <div
-      id="timer"
-      style="
+import React from "react";
+import { styled } from "styled-components";
+
+const TimerDiv = styled.div`
   background-color: black;
   width: 100px;
   height: 50px;
@@ -12,9 +11,8 @@ export const Timer = () => {
   justify-content: center;
   color: white;
   border: 4px solid white;
-"
-    >
-      60
-    </div>
-  );
+`;
+
+export const Timer = () => {
+  return <TimerDiv id="timer">60</TimerDiv>;
 };
