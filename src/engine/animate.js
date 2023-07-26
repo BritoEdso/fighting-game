@@ -1,3 +1,4 @@
+import { gsap } from "gsap";
 import { p1Controls } from "../characters/character_actions/player1-controls.js";
 import { p2Controls } from "../characters/character_actions/player2-controls.js";
 import {
@@ -7,13 +8,14 @@ import {
   player,
   enemy,
   shop,
-} from "../index.js";
-import { lastKey } from "../src/helper.js";
+} from "../App.js";
+import { lastKey } from "../helper.js";
 import {
   determineWinner,
   rectangularCollision,
   timerId,
-} from "../src/utils.js";
+} from "../utils.js";
+
 
 export let gameOver = false;
 
