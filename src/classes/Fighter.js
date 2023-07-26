@@ -12,6 +12,8 @@ export class Fighter extends Sprite {
     offset = { x: 0, y: 0 },
     sprites,
     attackbox = { offset: {}, width: undefined, height: undefined },
+    context,
+    
   }) {
     super({
       position,
@@ -52,6 +54,7 @@ export class Fighter extends Sprite {
     this.framesHold = 10;
     this.sprites = sprites;
     this.dead = false;
+    this.context = context
 
     for (const sprite in this.sprites) {
       sprites[sprite].image = new Image();

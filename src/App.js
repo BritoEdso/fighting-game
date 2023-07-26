@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { nightBorne } from "./characters/nightBorne.js";
 import { sonSon } from "./characters/sonSon.js";
@@ -12,6 +12,8 @@ import { EnemyHealth } from "./components/enemyHealth.js";
 import { Timer } from "./components/timer.js";
 import { DisplayText } from "./components/displayText.js";
 import { RestartButton } from "./components/restartButton.js";
+import { gameConfigs } from "./gameConfigs.js";
+import { useRef } from "react";
 // import {tmiClient} from "./twitch/index.js"
 
 // global variables
@@ -27,24 +29,36 @@ export let shop;
 export let skipCheck = false;
 
 const MainDiv = styled.div`
-  position: relative;
-  display: inline-block;
+position: relative;
+display: inline-block;
 `;
 
 const ChildDivOfMainDivWhoIsAGreatDiv = styled.div`
-  position: absolute;
-  display: flex;
+position: absolute;
+display: flex;
   width: 100%;
   align-items: center;
   padding: 20px;
-`;
+  `;
 // tmiClient.connect().catch(console.error);
 
 // tmiClient.on('message', (message) => {
-//   console.log('you suck')
-//   console.log(message)
-// })
+  //   console.log('you suck')
+  //   console.log(message)
+  // })
+export function App() {
 
+  const canvasRef = useRef(null)
+  const [context, setContext] = useState();
+  const [canvas, setCanvas] = useState();
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    setCanvas(canvas);
+    setContext(context);
+  }, []);
+  
 // set main loading stage
 canvas.width = 1024;
 canvas.height = 576;
@@ -53,13 +67,6 @@ const loadingScreen = new Image();
 loadingScreen.src = "./img/loading_screen.png";
 
 // set game configurations
-const gameConfigs = {
-  setStage,
-  setShop,
-  player: nightBorne,
-  enemy: sonSon,
-  skip: skipCheck,
-};
 
 // load the game
 window.addEventListener("load", (e) => {
@@ -69,7 +76,7 @@ window.addEventListener("load", (e) => {
   enemy = game.activeEnemy;
   background = game.activeStage;
   shop = game.activeAccessories;
-  c.drawImage(loadingScreen, 0, 0);
+  context.drawImage(loadingScreen, 0, 0);
   if (skipCheck) {
     document.getElementById("readyBar").style.display = "none";
     skipReadyCheck();
@@ -101,7 +108,6 @@ document.querySelector("#restart").addEventListener("click", (e) => {
   window.location.reload();
 });
 
-function App() {
   return (
     <MainDiv>
       <ChildDivOfMainDivWhoIsAGreatDiv>
@@ -111,9 +117,9 @@ function App() {
         <EnemyHealth />
         <DisplayText />
         <RestartButton />
-        <canvas></canvas>
+        <canvas currentRef={canvasRef}></canvas>
       </ChildDivOfMainDivWhoIsAGreatDiv>
-    </MainDiv>
+      </MainDiv>
   );
 }
 
