@@ -82,20 +82,20 @@ document.querySelector("#restart").addEventListener("click", (e) => {
 });
 
 function App() {
+  const appStyle = {
+    position: "absolute",
+    display: "flex",
+    width: "100%",
+    alignItems: "center",
+    padding: "20px",
+  };
+
   return (
-    <>
-      <div
-        style="
-position: absolute;
-display: flex;
-width: 100%;
-align-items: center;
-padding: 20px;
-"
-      ></div>
+    <div>
+      <div style={appStyle}></div>
 
       <canvas></canvas>
-    </>
+    </div>
   );
 }
 

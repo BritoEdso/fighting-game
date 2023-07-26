@@ -20,12 +20,12 @@ export class Fighter extends Sprite {
       framesMax,
       offset,
     });
-    this.showHitbox; //shows the hitbox
-    this.isReady, 
+    this.showHitbox = null; //shows the hitbox
+    this.isReady = null;
     this.velocity = velocity;
     this.width = 50;
     this.height = 150;
-    this.lastKey;
+    this.lastKey = null;
     this.attackbox = {
       position: {
         x: this.position.x,
@@ -44,7 +44,7 @@ export class Fighter extends Sprite {
       width: attackbox.width,
       height: attackbox.height,
     };
-    this.isAttacking;
+    this.isAttacking = null;
     this.health = 100;
     this.framesCurrent = 0;
     this.framesElapsed = 0;

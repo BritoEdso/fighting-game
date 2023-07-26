@@ -1,7 +1,7 @@
-import { nightBorne } from "./characters/nightBorne.js";
-import { sonSon } from "./characters/sonSon.js";
-import { Game } from "./classes/Game.js";
-import { animate } from "./engine/animate.js";
+import { nightBorne } from "./src/characters/nightBorne.js";
+import { sonSon } from "./src/characters/sonSon.js";
+import { Game } from "./src/classes/Game.js";
+import { animate } from "./src/engine/animate.js";
 import { countDown, readyCheck, skipReadyCheck } from "./src/utils.js";
 import { setShop, setStage } from "./src/stages/setStage.js";
 // import {tmiClient} from "./twitch/index.js"
