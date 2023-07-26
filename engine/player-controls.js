@@ -1,7 +1,7 @@
-import { player, enemy } from "../App.js";
+import { player, enemy } from "../index.js";
 import { p1Controls } from "../characters/character_actions/player1-controls.js";
 import { p2Controls } from "../characters/character_actions/player2-controls.js";
-import { lastKeyHelper } from "../helper.js";
+import { lastKeyHelper } from "../src/helper.js";
 
 
 export const playerControls = () => {

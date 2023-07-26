@@ -1,5 +1,5 @@
-import { c, canvas, gravity } from "../App.js";
-import { gameOver } from "../helper.js";
+import { c, canvas, gravity } from "../index.js";
+import { gameOver } from "../src/helper.js";
 import { Sprite } from "./Sprite.js";
 
 export class Fighter extends Sprite {
